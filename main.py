@@ -11,6 +11,7 @@ from View.UserPage import UserPage
 from View.IngredientsPage import IngredientsPage
 from View.CakePanPage import CakePanPage
 from View.IngredientRegister import IngredientRegister
+from View.CakePanRegister import CakePanRegister
 
 class Main:
     def __init__(self, page: ft.Page):
@@ -27,10 +28,11 @@ class Main:
             "/userPage": UserPage,
             "/ingredientsPage": IngredientsPage,
             "/cakePanPage": CakePanPage,
-            "/ingredientRegister": IngredientRegister
+            "/ingredientRegister": IngredientRegister,
+            "/cakePanRegister": CakePanRegister
         }
         self.page.on_route_change = self.route_change
-        self.page.go("/ingredientRegister") 
+        self.page.go("/cakePanRegister") 
 
     def route_change(self, route):
         self.page.controls.clear()

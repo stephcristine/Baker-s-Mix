@@ -18,24 +18,25 @@ class IngredientRegister:
       label_style=ft.TextStyle(size=16, color="black"),
       filled=True,
       bgcolor="white",
-      border_radius=20,
+      border_radius=5,
     )
     self.amount = ft.TextField(
       label="Quantidade",
       label_style=ft.TextStyle(size=16, color="black"),
       filled=True,
       bgcolor="white",
-      border_radius=20,
+      border_radius=5,
     )
     self.unit = ft.Dropdown(
         label="Selecione a unidade do produto",
+        bgcolor="#ffffff",
         options=[
-            ft.dropdown.Option("Quilos"),
-            ft.dropdown.Option("Gramas"),
-            ft.dropdown.Option("Litros"),
-            ft.dropdown.Option("Unidade"),
+          ft.dropdown.Option("Quilos"),
+          ft.dropdown.Option("Gramas"),
+          ft.dropdown.Option("Litros"),
+          ft.dropdown.Option("Unidade"),
         ],
-    ),
+    )
     registerButton = ft.ElevatedButton(
       text="CADASTRAR",
       style=ft.ButtonStyle(
@@ -44,7 +45,7 @@ class IngredientRegister:
         shape=ft.RoundedRectangleBorder(radius=30),
         padding=ft.Padding(15, 15, 15, 15),
       ),
-      on_click=lambda e: self.register(),
+      on_click=lambda e: self.ingredients_register(),
     )
 
     container = ft.Container(
@@ -69,7 +70,6 @@ class IngredientRegister:
 
     return ft.Column(controls=[container])
 
-  def register(self):
+  def ingredients_register(self):
     userData = (self.ingredient.value, self.amount.value, self.unit.value)
-    self.controller.register(userData)
-    print(self.unit)
+    self.controller.ingredients_register(userData)

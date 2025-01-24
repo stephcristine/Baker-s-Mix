@@ -5,16 +5,20 @@ class Controller:
     self.model = model
     self.view = view
     self.recipe = None
-    self.user = None
 
-  def userRegister(self, userData):
-    self.model.userRegister(userData)
+  def user_Register(self, userData):
+    self.model.user_Register(userData)
 
   def signIn(self, userData):
     userLogin = self.model.filled(userData)
     if userLogin:
-      self.user = userLogin['_id']
       self.view.page.go("/homePage")
+
+  def ingredients_register(self, ingredientsData):
+    return self.model.ingredients_register(ingredientsData)
+  
+  def cake_pan_register(self, panData):
+    self.model.pan_type(panData)
 
   def get_recipe(self):
     print(self.user)

@@ -43,7 +43,7 @@ class SignupPage:
         shape=ft.RoundedRectangleBorder(radius=30),
         padding=ft.Padding(15, 15, 15, 15),
       ),
-      on_click=lambda e: self.register(),
+      on_click=lambda e: self.user_Register(),
     )
 
     container = ft.Container(
@@ -68,6 +68,6 @@ class SignupPage:
 
     return ft.Column(controls=[container])
 
-  def userRegister(self):
+  def user_Register(self):
     userData = (self.name.value, self.email.value, self.password.value)
-    self.controller.userRegister(userData)
+    self.controller.user_Register(userData)

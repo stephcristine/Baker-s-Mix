@@ -73,7 +73,7 @@ class IngredientsPage:
       color="white",
       shape=ft.RoundedRectangleBorder(radius=10),
       padding=ft.Padding(30, 15, 30, 15)),
-      on_click=lambda e: print("Adicionar Ingrediente!"),
+      on_click=lambda e: self.page.go("/ingredientRegister"),
     )
 
     return ft.Column([header, ingredientsTitle, ingredientsList, addButton ])
