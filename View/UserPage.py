@@ -4,6 +4,7 @@ class UserPage:
   def __init__(self, page, controller):
     self.page = page
     self.controller = controller
+    self.get_user()
 
   def page_content(self):
     header = ft.Container(
@@ -50,19 +51,19 @@ class UserPage:
           color="white",
           text_align=ft.TextAlign.CENTER,
       )
-    name = ft.TextField(
-        label="Nome",
-        label_style=ft.TextStyle(size=16, color="black"),
-        filled=True,
-        bgcolor="white",
-        border_radius=20,
+    name = ft.Text(
+        self.user['nome'],
+        size=20,
+        weight=ft.FontWeight.BOLD,
+        color="black",
+        text_align=ft.TextAlign.CENTER,
     )
-    email = ft.TextField(
-        label="E-mail",
-        label_style=ft.TextStyle(size=16, color="black"),
-        filled=True,
-        bgcolor="white",
-        border_radius=20,
+    email = ft.Text(
+        self.user['email'],
+        size=20,
+        weight=ft.FontWeight.BOLD,
+        color="black",
+        text_align=ft.TextAlign.CENTER,
     )
     editButton = ft.ElevatedButton(
         text="EDITAR",
@@ -72,7 +73,7 @@ class UserPage:
             shape=ft.RoundedRectangleBorder(radius=10),
             padding=ft.Padding(20, 20, 20, 20),
         ),
-        on_click=lambda e: print("Cadastro realizado!"),
+        on_click=lambda e: self.page.go("/editUser"),
     )
     deleteButton = ft.ElevatedButton(
         text="DELETAR",
@@ -82,7 +83,7 @@ class UserPage:
             shape=ft.RoundedRectangleBorder(radius=10),
             padding=ft.Padding(20, 20, 20, 20),
         ),
-        on_click=lambda e: print("Cadastro realizado!"),
+        on_click=lambda e: self.delete_user()
     )
 
     body = ft.Container(
@@ -106,4 +107,11 @@ class UserPage:
     )
 
     return ft.Column(controls=[header, body])
+  
+  def get_user(self):
+    self.user = self.controller.get_user()
+
+  def delete_user(self):
+    self.controller.delete_user()
+    self.page.go("/signupPage")
   

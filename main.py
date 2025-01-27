@@ -12,6 +12,9 @@ from View.IngredientsPage import IngredientsPage
 from View.CakePanPage import CakePanPage
 from View.IngredientRegister import IngredientRegister
 from View.CakePanRegister import CakePanRegister
+from View.EditUser import EditUser
+from View.EditIngredients import EditIngredients
+from View.EditCakePan import EditCakePan
 
 class Main:
     def __init__(self, page: ft.Page):
@@ -29,10 +32,13 @@ class Main:
             "/ingredientsPage": IngredientsPage,
             "/cakePanPage": CakePanPage,
             "/ingredientRegister": IngredientRegister,
-            "/cakePanRegister": CakePanRegister
+            "/cakePanRegister": CakePanRegister,
+            "/editUser": EditUser,
+            "/editIngredients": EditIngredients,
+            "/editCakePan": EditCakePan,
         }
         self.page.on_route_change = self.route_change
-        self.page.go("/cakePanRegister") 
+        self.page.go("/login") 
 
     def route_change(self, route):
         self.page.controls.clear()

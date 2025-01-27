@@ -1,60 +1,59 @@
 import flet as ft
 
-class IngredientRegister:
+class EditUser:
   def __init__(self, page, controller):
     self.page = page
     self.controller = controller
+    self.get_user()
 
   def page_content(self):
     title = ft.Text(
-      "CADASTRO DE INGREDIENTES",
+      "EDITAR USUÁRIO",
       size=30,
       weight=ft.FontWeight.BOLD,
       color="white",
       text_align=ft.TextAlign.CENTER,
     )
-    self.ingredient = ft.TextField(
-      label="Nome do ingrediente",
+    self.name = ft.TextField(
+      label= self.user['nome'],
       label_style=ft.TextStyle(size=16, color="black"),
       filled=True,
       bgcolor="white",
-      border_radius=5,
+      border_radius=20,
     )
-    self.amount = ft.TextField(
-      label="Quantidade",
+    self.email = ft.TextField(
+      label= self.user['email'],
       label_style=ft.TextStyle(size=16, color="black"),
       filled=True,
       bgcolor="white",
-      border_radius=5,
+      border_radius=20,
     )
-    self.unit = ft.Dropdown(
-        label="Selecione a unidade do produto",
-        bgcolor="#ffffff",
-        options=[
-          ft.dropdown.Option("Quilos"),
-          ft.dropdown.Option("Gramas"),
-          ft.dropdown.Option("Litros"),
-          ft.dropdown.Option("Unidade"),
-        ],
+    self.password = ft.TextField(
+      label= self.user['senha'],
+      label_style=ft.TextStyle(size=16, color="black"),
+      filled=True,
+      bgcolor="white",
+      border_radius=20,
+      password=True,
     )
     registerButton = ft.ElevatedButton(
-      text="CADASTRAR",
+      text="EDITAR",
       style=ft.ButtonStyle(
-        bgcolor="#6691e8",
+        bgcolor="#4A5CFF",
         color="white",
         shape=ft.RoundedRectangleBorder(radius=30),
         padding=ft.Padding(15, 15, 15, 15),
       ),
-      on_click=lambda e: self.ingredients_register(),
+      on_click=lambda e: self.edit_user(),
     )
 
     container = ft.Container(
       content=ft.Column(
         [
           title,
-          self.ingredient,
-          self.amount,
-          self.unit,
+          self.name,
+          self.email,
+          self.password,
           registerButton,
         ],
         spacing=20,
@@ -62,15 +61,18 @@ class IngredientRegister:
       ),
       width=400,
       height=400,
-      bgcolor="#85d4ff",
+      bgcolor="#C2C9FF",
       border_radius=20,
       alignment=ft.alignment.center,
       padding=20,
     )
 
     return ft.Column(controls=[container])
+  
+  def get_user(self):
+    self.user = self.controller.get_user()
 
-  def ingredients_register(self):
-    ingredientData = (self.ingredient.value, self.amount.value, self.unit.value)
-    self.controller.ingredients_register(ingredientData)
-    self.page.go("/ingredientsPage")
+  def edit_user(self):
+    newData = (self.name.value, self.email.value, self.password.value)
+    self.controller.edit_user(newData)
+    self.page.go("/userPage")

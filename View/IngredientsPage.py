@@ -4,15 +4,7 @@ class IngredientsPage:
   def __init__(self, page, controller):
     self.page = page
     self.controller = controller
-    self.page_setup()
-    self.page_content()
- 
-  def page_setup(self):
-    self.page.title = "Meus Ingredientes e Formas"
-    self.page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    self.page.vertical_alignment = ft.MainAxisAlignment.START
-    self.page.scroll = "auto"
-    self.page.bgcolor = "white"
+    self.get_user_ingredients()
  
   def page_content(self):
     header = ft.Container(
@@ -39,7 +31,7 @@ class IngredientsPage:
       controls=[
         ft.Row(
           controls=[
-            ft.Text("quantidade + ingrediente", size=16, color="black"),
+            ft.Text(f"{ingredient['nome']}  {ingredient['quantidade']} {ingredient['unidade']}", size=16, color="black"),
             ft.ElevatedButton(
               "EDITAR",
               style=ft.ButtonStyle(
@@ -47,7 +39,7 @@ class IngredientsPage:
               color="black",
               shape=ft.RoundedRectangleBorder(radius=10),
               padding=ft.Padding(30, 15, 30, 15)),
-              on_click=lambda e: print("Editar Ingrediente!"),
+              on_click=lambda e, editIngredient=self.ingredients[i]: self.set_user_ingredient_id(editIngredient), 
             ),
             ft.ElevatedButton(
               "EXCLUIR",
@@ -56,12 +48,13 @@ class IngredientsPage:
               color="white",
               shape=ft.RoundedRectangleBorder(radius=10),
               padding=ft.Padding(30, 15, 30, 15)),
-              on_click=lambda e: print("Excluir Ingrediente!"),
+              on_click=lambda e, deleteIngredient=self.ingredients[i]: self.delete_user_ingredient(deleteIngredient), 
             ),
           ],
           alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+          
         )
-        for _ in range(3)
+        for i, ingredient in enumerate(self.ingredients)
       ],
       spacing=10,
     )
@@ -77,3 +70,14 @@ class IngredientsPage:
     )
 
     return ft.Column([header, ingredientsTitle, ingredientsList, addButton ])
+  
+  def get_user_ingredients(self):
+    self.ingredients = self.controller.get_user_ingredients()
+
+  def set_user_ingredient_id(self, editIngredient):
+    self.controller.set_user_ingredient_id(editIngredient)
+    self.page.go("/editIngredients")
+
+  def delete_user_ingredient(self, deleteIngredient):
+    self.controller.set_user_ingredient_id(deleteIngredient)
+    self.controller.delete_user_ingredient()

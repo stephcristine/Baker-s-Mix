@@ -4,15 +4,7 @@ class CakePanPage:
   def __init__(self, page, controller):
     self.page = page
     self.controller = controller
-    self.page_setup()
-    self.page_content()
-
-  def page_setup(self):
-    self.page.title = "Meus Ingredientes e Formas"
-    self.page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    self.page.vertical_alignment = ft.MainAxisAlignment.START
-    self.page.scroll = "auto"
-    self.page.bgcolor = "white"
+    self.get_user_cake_pan()
 
   def page_content(self):
     header = ft.Container(
@@ -39,7 +31,7 @@ class CakePanPage:
       controls=[
         ft.Row(
           controls=[
-            ft.Text("formato + tamanho", size=16, color="black"),
+            ft.Text(f"{pan['tipo']}  {pan['diametro']} X {pan['altura']}", size=16, color="black"),
             ft.ElevatedButton(
               "EDITAR",
               style=ft.ButtonStyle(
@@ -47,7 +39,7 @@ class CakePanPage:
               color="black",
               shape=ft.RoundedRectangleBorder(radius=10),
               padding=ft.Padding(30, 15, 30, 15)),
-              on_click=lambda e: print("Editar Ingrediente!"),
+              on_click=lambda e, editCakePan=self.panList[i]: self.set_user_cake_pan_id(editCakePan),
             ),
             ft.ElevatedButton(
               "EXCLUIR",
@@ -56,12 +48,12 @@ class CakePanPage:
               color="white",
               shape=ft.RoundedRectangleBorder(radius=10),
               padding=ft.Padding(30, 15, 30, 15)),
-              on_click=lambda e: print("Excluir Ingrediente!"),
+              on_click=lambda e, deleteCakePan=self.panList[i]: self.delete_user_cake_pan(deleteCakePan), 
             ),
           ],
           alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         )
-        for _ in range(3)
+        for i, pan in enumerate(self.panList)
       ],
       spacing=10,
     )
@@ -72,7 +64,18 @@ class CakePanPage:
       color="white",
       shape=ft.RoundedRectangleBorder(radius=10),
       padding=ft.Padding(30, 15, 30, 15)),
-      on_click=lambda e: print("Adicionar Ingrediente!"),
+      on_click=lambda e: self.page.go("/cakePanRegister"),
     )
 
     return ft.Column([header, cakePanTitle, cakePanList, addButton ])
+  
+  def get_user_cake_pan(self):
+    self.panList =self.controller.get_user_cake_pan()
+
+  def set_user_cake_pan_id(self, editCakePan):
+    self.controller.set_user_cake_pan_id(editCakePan)
+    self.page.go("/editCakePan")
+
+  def delete_user_cake_pan(self, deleteCakePan):
+    self.controller.set_user_cake_pan_id(deleteCakePan)
+    self.controller.delete_user_cake_pan()
